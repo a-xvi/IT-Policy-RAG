@@ -1,0 +1,22 @@
+# Confidential / generated data
+chroma_db/
+data/
+*.pdf
+
+# Local models
+models/
+
+# Secrets
+.env
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.DS_Store
+Thumbs.db

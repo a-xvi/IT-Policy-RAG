@@ -1,0 +1,5 @@
+data/*.txt
+data/*.pdf
+chroma_db/
+__pycache__/
+.git/
