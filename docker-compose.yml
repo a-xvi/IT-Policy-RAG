@@ -18,6 +18,8 @@ services:
       - OLLAMA_HOST=ollama
     volumes:
       - ./data:/app/data
+      - chroma_data:/app/chroma_db
 
 volumes:
   ollama_data:
+  chroma_data:

@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from functools import lru_cache
 
 import chromadb
@@ -20,6 +21,16 @@ DB_PATH = os.path.join(
 )
 
 COLLECTION_NAME = "it_policy"
+
+# Policy PDF to index (override with the POLICY_PDF environment variable)
+PDF_PATH = os.environ.get(
+    "POLICY_PDF",
+    os.path.join(
+        BASE_DIR,
+        "data",
+        "dummy_it_policy(1).pdf"
+    )
+)
 
 
 # Detect headings such as:
@@ -230,14 +241,46 @@ def search(query_embedding, top_k=4):
     )
 
 
+def build_index_if_empty(pdf_path):
+    """
+    Build the index only when the collection has no chunks.
+
+    Used at container startup so an existing index is reused.
+    """
+
+    collection = get_collection()
+
+    if collection.count() > 0:
+
+        print("Index already exists. Skipping indexing.")
+
+        return collection
+
+    if not os.path.exists(pdf_path):
+
+        print(
+            f"WARNING: Index is empty and PDF not found: {pdf_path}\n"
+            "Place the policy PDF there (or set POLICY_PDF) "
+            "and restart the container."
+        )
+
+        return collection
+
+    return rebuild_index(
+        pdf_path
+    )
+
+
 if __name__ == "__main__":
 
-    PDF_PATH = os.path.join(
-        BASE_DIR,
-        "data",
-        "dummy_it_policy(1).pdf"
-    )
+    if "--if-empty" in sys.argv:
 
-    rebuild_index(
-        PDF_PATH
-    )
+        build_index_if_empty(
+            PDF_PATH
+        )
+
+    else:
+
+        rebuild_index(
+            PDF_PATH
+        )
