@@ -1,7 +1,9 @@
 import os
 from functools import lru_cache
 
+#to stay offline to keep all models local to keep everything confi
 os.environ["HF_HUB_OFFLINE"] = "1"
+#so the model doesnt work paralell as my cpu is not that strong
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 from sentence_transformers import SentenceTransformer
@@ -17,7 +19,7 @@ LOCAL_MODEL_PATH = os.path.join(
     "all-MiniLM-L6-v2"
 )
 
-
+#last using used to keep the anwsers for more recent used or asked question 
 @lru_cache(maxsize=1)
 def load_embedding_model():
 
@@ -47,7 +49,7 @@ def load_embedding_model():
 
     return model
 
-
+# embed chunk trnasfprm it to numbers
 def embed_chunks(chunks):
 
     model = load_embedding_model()
@@ -63,6 +65,7 @@ def embed_chunks(chunks):
     return embeddings
 
 
+#tuens user question to numbers aka vectors
 def embed_query(query):
 
     model = load_embedding_model()

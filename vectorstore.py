@@ -29,7 +29,7 @@ SECTION_PATTERN = re.compile(
     r"^\s*(\d+(?:\.\d+)*)\.?\s+([A-Za-z].+?)\s*$"
 )
 
-
+#opens the connect to chroma db
 @lru_cache(maxsize=1)
 def get_client():
 
@@ -39,7 +39,7 @@ def get_client():
         path=DB_PATH
     )
 
-
+#grap the collection you want aka the policy after embeding it 
 @lru_cache(maxsize=1)
 def get_collection():
 
@@ -56,7 +56,7 @@ def get_collection():
 
     return collection
 
-
+#to check which sections this shunk is from 
 def detect_sections(text, current_section="Unknown"):
 
     blocks = []
@@ -108,7 +108,7 @@ def detect_sections(text, current_section="Unknown"):
 
     return blocks, section
 
-
+#take the embeding and store it aka the main function
 def rebuild_index(pdf_path):
 
     collection = get_collection()
@@ -212,7 +212,7 @@ def rebuild_index(pdf_path):
 
     return collection
 
-
+#embeds the users question
 def search(query_embedding, top_k=4):
 
     collection = get_collection()

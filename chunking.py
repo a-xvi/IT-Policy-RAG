@@ -1,5 +1,8 @@
 import re
 
+# chunk paragraphs into smaller managble peace 
+# adding small peaces so its easier and to orgnize the peaces togrther by over lapping
+
 
 def chunk_text(text, chunk_size=1200, overlap=150):
     """
