@@ -21,4 +21,5 @@ ENV TOKENIZERS_PARALLELISM=false
 
 EXPOSE 8501
 
-CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+# Pull the Ollama model and build the index if needed, then start the app
+CMD ["sh", "start.sh"]

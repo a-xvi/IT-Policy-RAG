@@ -10,9 +10,20 @@ from PIL import Image
 
 
 # Tesseract location
-pytesseract.pytesseract.tesseract_cmd = (
+# 1. TESSERACT_CMD environment variable, if set
+# 2. Default Windows install folder, if it exists
+# 3. Otherwise "tesseract" on PATH (Linux / Docker)
+WINDOWS_TESSERACT_PATH = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
+
+TESSERACT_CMD = os.environ.get("TESSERACT_CMD")
+
+if not TESSERACT_CMD and os.path.exists(WINDOWS_TESSERACT_PATH):
+    TESSERACT_CMD = WINDOWS_TESSERACT_PATH
+
+if TESSERACT_CMD:
+    pytesseract.pytesseract.tesseract_cmd = TESSERACT_CMD
 
 
 # Minimum amount of readable text before OCR is required
