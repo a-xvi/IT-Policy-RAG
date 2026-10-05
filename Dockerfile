@@ -21,6 +21,5 @@ ENV TOKENIZERS_PARALLELISM=false
 
 EXPOSE 8501
 
-# Build the vector index on first start (skipped if chroma_db already has data),
-# then launch the app. Indexing failures are logged but do not block the UI.
-CMD ["sh", "-c", "python vectorstore.py --if-empty; exec streamlit run app.py --server.address=0.0.0.0 --server.port=8501"]
+# Pull the Ollama model and build the index if needed, then start the app
+CMD ["sh", "start.sh"]
