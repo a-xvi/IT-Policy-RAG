@@ -44,7 +44,7 @@ Rules:
     The application adds the source separately.
 """
 
-
+#comman word that should be overlooked
 STOPWORDS = {
     "the",
     "a",
@@ -248,7 +248,7 @@ def normalize_user_text(text):
 
     return normalized
 
-
+# more than one is asked it would split them 
 def split_questions(text):
     """
     Split multiple questions when question marks are used.
@@ -269,7 +269,7 @@ def split_questions(text):
 
     return questions or [text]
 
-
+#breaks the question into smaller words to analyize
 def tokenize(text):
     """
     Convert text into useful searchable words.
@@ -289,7 +289,7 @@ def tokenize(text):
         and word not in STOPWORDS
     }
 
-
+#found the right topic for the search query
 def detect_topic(question):
     """
     Identify the likely policy area.
@@ -336,7 +336,7 @@ def detect_topic(question):
 
     return None
 
-
+#adds word to small question so ollama can read them 
 def expand_query(question):
     """
     Create a stronger semantic-search query.
@@ -382,7 +382,7 @@ def expand_query(question):
 
     return normalized
 
-
+#it cleans the user questions aka preproccesing
 def normalize_question_for_generation(question):
     """
     Rewrite short vague phrases into clearer questions
@@ -478,7 +478,7 @@ def normalize_question_for_generation(question):
 
     return normalized
 
-
+#understand the user question andd analyze it
 def is_identity_question(question):
     """
     Detect questions asking what the assistant is.
@@ -502,7 +502,7 @@ def is_identity_question(question):
         for phrase in identity_phrases
     )
 
-
+#checks for the right anwser in the chroma store
 def retrieve_documents(
     question,
     top_k=8
@@ -616,7 +616,7 @@ def retrieve_documents(
 
     return combined_results
 
-
+#is it junk or not
 def is_noisy_candidate(candidate):
     """
     Detect short / TOC / OCR-noise chunks.
@@ -643,7 +643,7 @@ def is_noisy_candidate(candidate):
 
     return False
 
-
+#rank the topics to filter them
 def topic_score(
     topic,
     candidate
@@ -678,7 +678,7 @@ def topic_score(
         if anchor in text
     )
 
-
+#just checks if it is the right chunk ir not
 def is_relevant(
     question,
     candidates
@@ -776,7 +776,7 @@ def is_relevant(
 
     return False
 
-
+#return the context of the chunk 
 def select_context_candidates(
     question,
     candidates,
@@ -911,7 +911,7 @@ def select_context_candidates(
 
     return selected
 
-
+#merge the chunks toger to send to ollama latter
 def build_context(
     candidates
 ):
@@ -956,7 +956,7 @@ CONTENT:
         context_parts
     )
 
-
+#extract the page number
 def get_sources(
     candidates
 ):
@@ -994,7 +994,7 @@ def get_sources(
 
     return sources
 
-
+#when anwser is not covered
 def answer_means_not_covered(answer):
     """
     Detect when Ollama is effectively saying
@@ -1023,7 +1023,7 @@ def answer_means_not_covered(answer):
         for phrase in not_covered_phrases
     )
 
-
+#was for a specifice case, check who can get a device 
 def asks_device_eligibility(question):
     """
     Detect questions asking who can receive/get/take a device.
@@ -1042,7 +1042,7 @@ def asks_device_eligibility(question):
         )
     )
 
-
+#checks if there is a direct anwser 
 def get_direct_policy_answer(
     question,
     candidates
@@ -1085,7 +1085,7 @@ def get_direct_policy_answer(
 
     return None
 
-
+# if user asks just one question it anwser it
 def answer_single_question(
     question,
     top_k=8
@@ -1240,7 +1240,7 @@ Using only the policy context above, answer the question directly.
 
     return answer
 
-
+#introduce it self
 def answer_one(
     question
 ):
@@ -1261,7 +1261,7 @@ def answer_one(
         question
     )
 
-
+#the main code to see what should be done with the question and what function to use aka dispatcher
 def answer_question(
     question
 ):
